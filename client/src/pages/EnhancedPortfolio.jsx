@@ -330,19 +330,25 @@ const Portfolio = () => {
   const experiences = [
     {
       id: 1,
-      company: 'Serenity Remote',
-      position: 'Full Stack Developer',
-      period: 'Jan 2023 - Present',
-      current: true,
+      company: 'Kholex Gaming Enterprises',
+      position: 'Co-Manager & Technical Lead',
+      period: 'Jan 2021 - Dec 2022',
+      current: false,
       description:
-        'Leading development of web applications and services for international clients.',
+        'Oversaw daily operations and implemented technical solutions for gaming center.',
       achievements: [
-        'Architected and developed scalable web applications using the MERN stack',
-        'Implemented responsive designs and optimized performance across devices',
-        'Collaborated with cross-functional teams to deliver high-quality solutions',
-        'Mentored junior developers and conducted code reviews',
+        'Managed a team of 5 staff members and daily operations',
+        'Developed a custom booking and inventory management system',
+        'Implemented technical solutions to enhance customer experience',
+        'Increased revenue by 30% through strategic planning and marketing initiatives',
       ],
-      technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'AWS', 'Docker'],
+      technologies: [
+        'JavaScript',
+        'PHP',
+        'MySQL',
+        'HTML/CSS',
+        'Network Administration',
+      ],
     },
     {
       id: 2,
@@ -369,31 +375,25 @@ const Portfolio = () => {
     },
     {
       id: 3,
-      company: 'Kholex Gaming Enterprises',
-      position: 'Co-Manager & Technical Lead',
-      period: 'Jan 2021 - Dec 2022',
-      current: false,
+      company: 'Serenity Remote',
+      position: 'Full Stack Developer',
+      period: 'Jan 2023 - Present',
+      current: true,
       description:
-        'Oversaw daily operations and implemented technical solutions for gaming center.',
+        'Leading development of web applications and services for international clients.',
       achievements: [
-        'Managed a team of 5 staff members and daily operations',
-        'Developed a custom booking and inventory management system',
-        'Implemented technical solutions to enhance customer experience',
-        'Increased revenue by 30% through strategic planning and marketing initiatives',
+        'Architected and developed scalable web applications using the MERN stack',
+        'Implemented responsive designs and optimized performance across devices',
+        'Collaborated with cross-functional teams to deliver high-quality solutions',
+        'Mentored junior developers and conducted code reviews',
       ],
-      technologies: [
-        'JavaScript',
-        'PHP',
-        'MySQL',
-        'HTML/CSS',
-        'Network Administration',
-      ],
+      technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'AWS', 'Docker'],
     },
     {
       id: 4,
       company: 'Agile Business Solutions',
       position: 'Attachment Trainee',
-      period: 'May 2020 - Aug 2020',
+      period: 'May 2024 - Sep 2024',
       current: false,
       description:
         'Gained hands-on experience in full-stack development and software solutions.',
@@ -406,6 +406,7 @@ const Portfolio = () => {
       technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'Git'],
     },
   ];
+  
 
   const skills = {
     programming: [
