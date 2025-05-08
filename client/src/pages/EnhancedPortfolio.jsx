@@ -105,7 +105,7 @@ const Portfolio = () => {
     try {
       // Call our API route instead of directly calling Mailjet
       const response = await axios.post(
-        'http://localhost:5000/api/contact',
+        'https://vicotorportfolio.netlify.app/api/contact',
         formData
       );
       if (response.status) {
