@@ -443,14 +443,14 @@ const Portfolio = () => {
       institution: 'Machakos University',
       period: '2020 - Present',
       description:
-        'Focusing on software engineering, data structures, and web technologies.',
+        'I successfully completed a four-year Bachelor of Science in Computer Science program, gaining a solid foundation in software development, data structures and algorithms, databases, artificial intelligence, and cybersecurity. For my final year project, I developed a full-stack mobile application to support mental health assessments using the MERN stack. During my studies, I actively participated in university technology events, coding bootcamps, and collaborative software development projects. I am currently awaiting graduation and official degree conferment.',
     },
     {
       degree: 'High School Diploma',
       institution: 'Anestar Boys High School Lanet',
       period: '2017 - 2021',
       description:
-        'Graduated with a B grade, with focus on mathematics and sciences.',
+        'I earned a solid overall grade of B in the Kenya Certificate of Secondary Education, with strong performance in Mathematics, Physics, and Computer Studies, while actively participating in the ICT club, science and technology fairs, and demonstrating leadership and teamwork through academic group projects and extracurricular activities',
     },
   ];
 
