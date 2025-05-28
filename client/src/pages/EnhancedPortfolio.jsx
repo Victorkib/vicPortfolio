@@ -327,34 +327,44 @@ const Portfolio = () => {
     devops: ['Docker', 'AWS', 'CI/CD', 'Kubernetes', 'GitHub Actions'],
   };
 
-  const experiences = [
+ const experiences = [
     {
       id: 1,
-      company: 'Kholex Gaming Enterprises',
-      position: 'Co-Manager & Technical Lead',
-      period: 'Jan 2021 - Dec 2022',
-      current: false,
+      company: 'Serenity Remote',
+      position: 'Full Stack Developer',
+      period: 'September 2023 - Present',
+      current: true,
       description:
-        'Oversaw daily operations and implemented technical solutions for gaming center.',
+        'Leading development of web applications and services for international clients.',
       achievements: [
-        'Managed a team of 5 staff members and daily operations',
-        'Developed a custom booking and inventory management system',
-        'Implemented technical solutions to enhance customer experience',
-        'Increased revenue by 30% through strategic planning and marketing initiatives',
+        'Architected and developed scalable web applications using the MERN stack',
+        'Implemented responsive designs and optimized performance across devices',
+        'Collaborated with cross-functional teams to deliver high-quality solutions',
+        'Mentored junior developers and conducted code reviews',
       ],
-      technologies: [
-        'JavaScript',
-        'PHP',
-        'MySQL',
-        'HTML/CSS',
-        'Network Administration',
-      ],
+      technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'AWS', 'Docker'],
     },
     {
       id: 2,
+      company: 'Agile Business Solutions',
+      position: 'Attachment Trainee',
+      period: 'May 2024 - Sept 2024',
+      current: false,
+      description:
+        'Gained hands-on experience in full-stack development and software solutions.',
+      achievements: [
+        'Collaborated with teams to deliver web solutions and internal tools',
+        'Gained hands-on experience in full-stack development using the MERN stack',
+        'Participated in UI/UX design and conducted bug testing',
+        'Contributed to the development of an internal CRM system',
+      ],
+      technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'Git'],
+    },
+    {
+      id: 3,
       company: 'Freelance Developer',
       position: 'Independent Contractor',
-      period: 'Jun 2022 - Present',
+      period: 'Jun 2023 - Present',
       current: true,
       description:
         'Providing custom web and mobile development solutions for diverse clients.',
@@ -374,36 +384,26 @@ const Portfolio = () => {
       ],
     },
     {
-      id: 3,
-      company: 'Serenity Remote',
-      position: 'Full Stack Developer',
-      period: 'Jan 2023 - Present',
-      current: true,
-      description:
-        'Leading development of web applications and services for international clients.',
-      achievements: [
-        'Architected and developed scalable web applications using the MERN stack',
-        'Implemented responsive designs and optimized performance across devices',
-        'Collaborated with cross-functional teams to deliver high-quality solutions',
-        'Mentored junior developers and conducted code reviews',
-      ],
-      technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'AWS', 'Docker'],
-    },
-    {
       id: 4,
-      company: 'Agile Business Solutions',
-      position: 'Attachment Trainee',
-      period: 'May 2024 - Sep 2024',
+      company: 'Kholex Gaming Enterprises',
+      position: 'Co-Manager & Technical Lead',
+      period: 'Jan 2021 - Dec 2022',
       current: false,
       description:
-        'Gained hands-on experience in full-stack development and software solutions.',
+        'Oversaw daily operations and implemented technical solutions for gaming center.',
       achievements: [
-        'Collaborated with teams to deliver web solutions and internal tools',
-        'Gained hands-on experience in full-stack development using the MERN stack',
-        'Participated in UI/UX design and conducted bug testing',
-        'Contributed to the development of an internal CRM system',
+        'Managed a team of 5 staff members and daily operations',
+        'Developed a custom booking and inventory management system',
+        'Implemented technical solutions to enhance customer experience',
+        'Increased revenue by 30% through strategic planning and marketing initiatives',
       ],
-      technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'Git'],
+      technologies: [
+        'JavaScript',
+        'PHP',
+        'MySQL',
+        'HTML/CSS',
+        'Network Administration',
+      ],
     },
   ];
   
