@@ -178,7 +178,7 @@ const Portfolio = () => {
       preview: '/vocCyberImg.png?height=400&width=600',
       techStack: ['React', 'Node.js', 'MongoDb', 'Express'],
       links: {
-        live: '/vocCyberVid.mp4',
+        live: 'https://res.cloudinary.com/victorkib/video/upload/v1756229166/vicPortfolio/vocCyberVid_v3er2j.mp4',
         github: 'https://github.com/Victorkib/CyberCafeVoxxx.git',
       },
       metrics: {
@@ -208,7 +208,7 @@ const Portfolio = () => {
       preview: '/CMSPic.png?height=400&width=600',
       techStack: ['MongoDB', 'Express', 'React', 'NodeJS'],
       links: {
-        live: '/C.M.S.mp4',
+        live: 'https://res.cloudinary.com/victorkib/video/upload/v1756230417/vicPortfolio/C.M.S_fujsgs.mp4',
         github: 'https://github.com/Victorkib/career-management-system.git',
       },
       metrics: {
@@ -246,7 +246,7 @@ const Portfolio = () => {
       preview: '/MentaCarePic.jpg?height=400&width=600',
       techStack: ['React Native', 'Firebase', 'TensorFlow.js', 'GraphQL'],
       links: {
-        live: '/MentaCarePic.mp4',
+        live: 'https://res.cloudinary.com/victorkib/video/upload/v1756229240/vicPortfolio/MentaCarePic_giwmbc.mp4',
         github: 'https://github.com/Victorkib/mentalHealth.git',
       },
       metrics: {
@@ -280,7 +280,7 @@ const Portfolio = () => {
       preview: '/MUEventsPic.png?height=400&width=600',
       techStack: ['Node.js', 'MQTT', 'InfluxDB', 'Vue.js'],
       links: {
-        live: '/MUEvents.mp4',
+        live: 'https://res.cloudinary.com/victorkib/video/upload/v1756229444/vicPortfolio/MUEvents_akykpa.mp4',
         github: 'https://github.com/Victorkib/EventMngtSystem.git',
       },
       metrics: {
@@ -327,7 +327,7 @@ const Portfolio = () => {
     devops: ['Docker', 'AWS', 'CI/CD', 'Kubernetes', 'GitHub Actions'],
   };
 
- const experiences = [
+  const experiences = [
     {
       id: 1,
       company: 'Serenity Remote',
@@ -406,7 +406,6 @@ const Portfolio = () => {
       ],
     },
   ];
-  
 
   const skills = {
     programming: [
