@@ -208,7 +208,7 @@ const Portfolio = () => {
       preview: '/CMSPic.png?height=400&width=600',
       techStack: ['MongoDB', 'Express', 'React', 'NodeJS'],
       links: {
-        live: 'https://res.cloudinary.com/victorkib/video/upload/v1756230417/vicPortfolio/C.M.S_fujsgs.mp4',
+        live: 'https://res.cloudinary.com/victorkib/video/upload/v1763018642/vicPortfolio/C.M.S_demo_vdiejg.mp4',
         github: 'https://github.com/Victorkib/career-management-system.git',
       },
       metrics: {
