@@ -2,36 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Code2,
-  ExternalLink,
-  Github,
-  Terminal,
-  Eye,
-  Brain,
-  X,
-  Briefcase,
-  Calendar,
-  Award,
-  Star,
-  Zap,
-  Users,
-  CheckCircle,
-  ArrowRight,
-  Download,
-  Mail,
-  Linkedin,
-  Twitter,
-  Instagram,
-  MapPin,
-  Sparkles,
-  Building,
-  School,
-  AlertCircle,
-  Loader2,
-  Axis3DIcon,
-  FileText,
-} from 'lucide-react';
+import { Code2, ExternalLink, Github, Terminal, Eye, Brain, X, Briefcase, Calendar, Award, Star, Zap, Users, CheckCircle, ArrowRight, Download, Mail, Linkedin, Twitter, Instagram, MapPin, Sparkles, Building, School, AlertCircle, Loader2, Axis3DIcon, FileText, Trophy } from 'lucide-react';
 import axios from 'axios';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
@@ -46,6 +17,7 @@ const Portfolio = () => {
   const skillsRef = useRef(null);
   const contactRef = useRef(null);
   const homeRef = useRef(null);
+  const certificationsRef = useRef(null); // Added certificationsRef
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [downloadFormat, setDownloadFormat] = useState('pdf');
 
@@ -136,6 +108,7 @@ const Portfolio = () => {
       { ref: homeRef, id: 'home' },
       { ref: projectsRef, id: 'projects' },
       { ref: experienceRef, id: 'experience' },
+      { ref: certificationsRef, id: 'certifications' }, // Added certificationsRef to sectionRefs
       { ref: skillsRef, id: 'skills' },
       { ref: contactRef, id: 'contact' },
     ];
@@ -225,7 +198,7 @@ const Portfolio = () => {
           const { data, isLoading, error } = useQuery({
             queryKey: ['recommendations'],
             queryFn: () => fetchRecommendationsForUser(),
-            enabled: true, 
+            enabled: true,
             onSuccess: (data) => {
               console.log('Fetched recommendations:', data);
               if (!recommendations) {
@@ -303,7 +276,7 @@ const Portfolio = () => {
             this.setupSubscriptions();
             this.initializeAnalytics();
           }
-          
+
           async processAnomalyDetection(data) {
             const baseline = await this.getBaselineMetrics(data.sensorId);
             return detectAnomalies(data, baseline);
@@ -451,6 +424,46 @@ const Portfolio = () => {
       description:
         'I earned a solid overall grade of B in the Kenya Certificate of Secondary Education, with strong performance in Mathematics, Physics, and Computer Studies, while actively participating in the ICT club, science and technology fairs, and demonstrating leadership and teamwork through academic group projects and extracurricular activities',
     },
+    {
+      degree: 'Primary School Certificate',
+      institution: 'Immaculate Parochial School',
+      period: 'December 2016',
+      description:
+        'Achieved a cumulative score of 375 with standout results in Mathematics, English, and Science. Actively involved in the Computer Club and participated in various science and technology exhibitions. Showcased strong leadership, collaboration, and problem-solving abilities through group assignments and co-curricular activities. Consistently maintained a disciplined academic record, earning recognition for reliability and dedication.',
+    },
+  ];
+
+  const certifications = [
+    {
+      id: 1,
+      title: 'Advanced JavaScript & Web Development',
+      issuer: 'Agile Business Solutions',
+      date: 'August 2024',
+      description:
+        'Comprehensive certification in advanced JavaScript concepts, modern web development frameworks, and best practices in full-stack development.',
+      skills: ['JavaScript', 'React', 'Node.js', 'Best Practices'],
+      icon: Trophy,
+    },
+    {
+      id: 2,
+      title: 'Google Developer Groups - Tech Leadership',
+      issuer: 'GDG - Google Developer Groups',
+      date: 'July 2024 - Completed', // Updated to show completion date
+      description:
+        'Active member and contributor to Google Developer Groups, participating in tech talks, workshops, and community-driven initiatives to advance technology awareness and leadership.',
+      skills: ['Community Leadership', 'Tech Mentorship', 'Web Technologies'],
+      icon: Users,
+    },
+    {
+      id: 3,
+      title: 'Hackfest 2024 - Winner', // Updated to reflect winning status
+      issuer: 'Machakos University Hackathon',
+      date: 'November 2024',
+      description:
+        'Won Machakos University Hackfest 2024 by delivering innovative Mental Health solution and demonstrating exceptional problem-solving skills and rapid development capabilities in a competitive environment.',
+      skills: ['Problem Solving', 'Rapid Development', 'Innovation', 'Leadership'],
+      icon: Sparkles,
+    },
   ];
 
   // Resume data for PDF generation
@@ -501,6 +514,13 @@ const Portfolio = () => {
         description:
           'Achieve a substantial grade of B in my Kenya Certificate of Secondary Education (KSCE)',
       },
+      { // Added primary school education to resume data for PDF
+        degree: 'PRIMARY SCHOOL CERTIFICATE',
+        institution: 'IMMACULATE PAROCHIAL SCHOOL',
+        period: 'DECEMBER 2016',
+        description:
+          'Achieved a cumulative score of 375 with standout results in Mathematics, English, and Science.',
+      },
     ],
     skills: [
       'Restful web services',
@@ -514,6 +534,23 @@ const Portfolio = () => {
     ],
     activities:
       "As a dedicated full MERN stack developer, I am passionate about leveraging technology to solve real-world problems and create impactful applications. My interests extend beyond coding—I'm actively involved in tech communities where I mentor aspiring developers and contribute to open-source projects. I am certified in advanced JavaScript and web development frameworks, continually building my skill set to stay at the forefront of industry trends.\n\nI enjoy volunteering with local organizations to promote digital literacy, helping bridge the technology gap. Additionally, I have led project teams on cross-functional initiatives, strengthening my leadership and collaboration skills. My work has been featured in tech blogs, and I'm fluent in both English and Swahili. These experiences shape my holistic approach to development, combining technical expertise with a dedication to community and growth.",
+    certifications: [ // Added certifications to resumeData
+      {
+        title: 'Advanced JavaScript & Web Development',
+        issuer: 'Agile Business Solutions',
+        date: 'August 2024',
+      },
+      {
+        title: 'Google Developer Groups - Tech Leadership',
+        issuer: 'GDG - Google Developer Groups',
+        date: 'July 2024 - Completed',
+      },
+      {
+        title: 'Hackfest 2024 - Winner',
+        issuer: 'Machakos University Hackathon',
+        date: 'November 2024',
+      },
+    ],
   };
 
   // Function to generate and download PDF resume
@@ -676,6 +713,39 @@ const Portfolio = () => {
         yPos += 8;
       });
 
+      // Add certifications (New section)
+      if (yPos > 250) {
+        doc.addPage();
+        yPos = 20;
+      }
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+      doc.text('CERTIFICATIONS', margin, yPos);
+
+      yPos += 8;
+      doc.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+      doc.line(margin, yPos, pageWidth - margin, yPos);
+
+      resumeData.certifications.forEach((cert) => {
+        yPos += 10;
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(textColor[0], textColor[1], textColor[2]);
+        doc.text(cert.title, margin, yPos);
+
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'italic');
+        doc.text(`${cert.issuer} | ${cert.date}`, margin, yPos + 6);
+
+        yPos += 12;
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        const certLines = doc.splitTextToSize(cert.description, contentWidth);
+        doc.text(certLines, margin, yPos);
+        yPos += certLines.length * 5 + 5;
+      });
+
       // Check if we need a new page for skills
       if (yPos > 250) {
         doc.addPage();
@@ -813,15 +883,15 @@ const Portfolio = () => {
             padding-bottom: 5px;
             margin-bottom: 15px;
           }
-          .experience-item, .education-item {
+          .experience-item, .education-item, .certification-item { /* Added certification-item */
             margin-bottom: 15px;
           }
-          .job-title, .degree {
+          .job-title, .degree, .certification-title { /* Added certification-title */
             font-weight: bold;
             font-size: 14px;
             margin: 0 0 5px 0;
           }
-          .company-period, .institution-period {
+          .company-period, .institution-period, .issuer-date { /* Added issuer-date */
             font-style: italic;
             font-size: 13px;
             margin: 0 0 8px 0;
@@ -888,6 +958,22 @@ const Portfolio = () => {
               <p class="degree">${edu.degree}</p>
               <p class="institution-period">${edu.institution} | ${edu.period}</p>
               <p>${edu.description}</p>
+            </div>
+          `
+            )
+            .join('')}
+        </div>
+
+        {/* Added Certifications to DOCX */}
+        <div class="section">
+          <div class="section-title">CERTIFICATIONS</div>
+          ${resumeData.certifications
+            .map(
+              (cert) => `
+            <div class="certification-item">
+              <p class="certification-title">${cert.title}</p>
+              <p class="issuer-date">${cert.issuer} | ${cert.date}</p>
+              <p>${cert.description}</p>
             </div>
           `
             )
@@ -1338,6 +1424,7 @@ const Portfolio = () => {
               { name: 'Home', href: '#home' },
               { name: 'Projects', href: '#projects' },
               { name: 'Experience', href: '#experience' },
+              { name: 'Certifications', href: '#certifications' }, // Added Certifications link
               { name: 'Skills', href: '#skills' },
               { name: 'Contact', href: '#contact' },
             ].map((item) => (
@@ -1386,6 +1473,7 @@ const Portfolio = () => {
                   { name: 'Home', href: '#home' },
                   { name: 'Projects', href: '#projects' },
                   { name: 'Experience', href: '#experience' },
+                  { name: 'Certifications', href: '#certifications' }, // Added Certifications link
                   { name: 'Skills', href: '#skills' },
                   { name: 'Contact', href: '#contact' },
                 ].map((item) => (
@@ -1749,8 +1837,97 @@ const Portfolio = () => {
           </div>
         </section>
 
+        <section
+          id="certifications"
+          ref={certificationsRef}
+          className="py-20 px-4"
+        >
+          <div className="container mx-auto">
+            <div className="text-center mb-16">
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="text-4xl font-bold mb-4"
+              >
+                Certifications & Achievements
+              </motion.h2>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="w-20 h-1.5 bg-purple-600 mx-auto mb-6 rounded-full"
+              ></motion.div>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="max-w-2xl mx-auto text-slate-300 text-lg"
+              >
+                Professional certifications and recognitions that demonstrate my
+                commitment to continuous learning and excellence
+              </motion.p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {certifications.map((cert, index) => {
+                const IconComponent = cert.icon;
+                return (
+                  <motion.div
+                    key={cert.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="bg-slate-800 rounded-xl p-6 border border-slate-700 hover:border-purple-500/50 transition-all duration-300 group"
+                    whileHover={{ y: -5 }}
+                  >
+                    {/* Icon Container */}
+                    <div className="mb-6 flex items-center justify-between">
+                      <div className="w-14 h-14 bg-purple-600/20 rounded-lg flex items-center justify-center group-hover:bg-purple-600/30 transition-all duration-300">
+                        <IconComponent className="w-7 h-7 text-purple-400" />
+                      </div>
+                      <span className="px-3 py-1 bg-slate-700/50 rounded-full text-xs text-slate-300">
+                        {cert.date}
+                      </span>
+                    </div>
+
+                    {/* Content */}
+                    <h3 className="text-xl font-bold text-white mb-2">
+                      {cert.title}
+                    </h3>
+                    <div className="flex items-center gap-2 text-purple-400 text-sm mb-3 font-medium">
+                      <Award className="w-4 h-4" />
+                      <span>{cert.issuer}</span>
+                    </div>
+
+                    <p className="text-slate-300 text-sm mb-4">
+                      {cert.description}
+                    </p>
+
+                    {/* Skills Tags */}
+                    <div className="flex flex-wrap gap-2">
+                      {cert.skills.map((skill) => (
+                        <span
+                          key={skill}
+                          className="px-2 py-1 bg-slate-700/50 rounded-md text-xs text-slate-300 border border-slate-600/50"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
         {/* Skills & Education Section */}
-        <section id="skills" ref={skillsRef} className="py-20 px-4">
+        <section id="skills" ref={skillsRef} className="py-20 px-4 bg-slate-800/30">
           <div className="container mx-auto">
             <div className="text-center mb-16">
               <motion.h2
