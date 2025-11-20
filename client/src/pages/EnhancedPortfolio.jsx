@@ -1579,7 +1579,7 @@ const Portfolio = () => {
                   },
                   {
                     icon: <Linkedin className="w-5 h-5" />,
-                    url: 'www.linkedin.com/in/victor-kibiwott-b85537240',
+                    url: 'https://www.linkedin.com/in/victor-kibiwott-b85537240/',
                   },
                   { icon: <Twitter className="w-5 h-5" />, url: '#' },
                   { icon: <Instagram className="w-5 h-5" />, url: '#' },
