@@ -47,14 +47,18 @@ app.use('/api/', limiter);
 // Middleware
 app.use(
   cors({
-    origin: [process.env.CLIENT_URL || 'https://vicportfolio.onrender.com',
-    'http://localhost:5173'],
+   origin: [
+  process.env.CLIENT_URL,
+  'https://vicotorportfolio.netlify.app',
+  'http://localhost:5173'
+].filter(Boolean),
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 
   })
 );
+
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 app.use(morgan('dev'));
