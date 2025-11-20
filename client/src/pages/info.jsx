@@ -21,6 +21,7 @@ import {
   Cloud,
   Lock,
 } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const Portfolio = () => {
   const [view, setView] = useState('space'); // space, matrix, classic
@@ -339,6 +340,12 @@ const Portfolio = () => {
 
   return (
     <div className="min-h-screen bg-slate-900 text-white overflow-hidden">
+      <SEO
+        title="Victor Kibiwott - Developer Info & Technology Stack"
+        description="Detailed information about Victor Kibiwott's technology expertise, projects, and development skills. Explore the tech stack, projects, and professional journey."
+        keywords="Victor Kibiwott, Technology Stack, Developer Info, Projects, Skills, MERN Stack"
+        url={typeof window !== 'undefined' ? window.location.href : 'https://victorkibiwott.com/info'}
+      />
       {/* Background Effects */}
       <ParticleField />
 

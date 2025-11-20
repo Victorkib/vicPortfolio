@@ -6,6 +6,7 @@ import { Code2, ExternalLink, Github, Terminal, Eye, Brain, X, Briefcase, Calend
 import axios from 'axios';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+import SEO from '../components/SEO';
 
 const Portfolio = () => {
   const [activeProject, setActiveProject] = useState(null);
@@ -1500,6 +1501,13 @@ const Portfolio = () => {
 
   return (
     <div className="min-h-screen bg-slate-900 text-white overflow-hidden">
+      <SEO
+        title="Victor Kibiwott - Full Stack Developer Portfolio | MERN Stack Expert"
+        description="Portfolio of Victor Kibiwott, a skilled Full Stack Developer specializing in MERN stack, React, Node.js, MongoDB, and Express. Explore featured projects, professional experience, certifications from Agile Business Solutions, GDG, and Machakos University Hackfest, technical skills, and contact information."
+        keywords="Victor Kibiwott, Full Stack Developer, MERN Stack, React Developer, Node.js, MongoDB, Express, Web Development, Portfolio, JavaScript, React Native, Agile Business Solutions, GDG, Google Developer Groups, Machakos University, Hackfest Winner, Software Engineer, Frontend Developer, Backend Developer"
+        url={typeof window !== 'undefined' ? window.location.href : 'https://victorkibiwott.com'}
+        image="/qin.jpeg"
+      />
       {/* Background Effects */}
       <ParticleField />
 

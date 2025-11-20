@@ -9,6 +9,7 @@ import {
   Rocket,
   Heart,
 } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('hero');
@@ -45,6 +46,12 @@ const Portfolio = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden">
+      <SEO
+        title="Victor Kibiwott - Portfolio | Alternative View"
+        description="Alternative portfolio view showcasing Victor Kibiwott's skills in MERN stack development, web design, and full-stack solutions."
+        keywords="Victor Kibiwott, Portfolio, MERN Stack, Web Development, Full Stack Developer"
+        url={typeof window !== 'undefined' ? window.location.href : 'https://victorkibiwott.com/land'}
+      />
       {/* Animated background particles */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(20)].map((_, i) => (
