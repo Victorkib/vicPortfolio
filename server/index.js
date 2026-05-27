@@ -15,6 +15,14 @@ import http from 'http';
 import { Server } from 'socket.io';
 // Fix for Mailjet import - use dynamic import
 import Mailjet from 'node-mailjet';
+import {
+  projects,
+  experiences,
+  skills,
+  education,
+  certifications,
+  resumeData,
+} from './data/portfolioContent.js';
 
 // Load environment variables
 dotenv.config();
@@ -24,6 +32,17 @@ process.env.USE_REDIS = process.env.USE_REDIS || 'false';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const configuredClientUrls = (process.env.CLIENT_URLS || '')
+  .split(',')
+  .map((url) => url.trim())
+  .filter(Boolean);
+const allowedOrigins = [
+  ...configuredClientUrls,
+  process.env.CLIENT_URL,
+  'https://vicotorportfolio.netlify.app',
+  'https://vicportfolio.netlify.app',
+  'http://localhost:5173',
+].filter(Boolean);
 
 // Initialize Mailjet client
 const mailjet = Mailjet.apiConnect(
@@ -47,11 +66,7 @@ app.use('/api/', limiter);
 // Middleware
 app.use(
   cors({
-   origin: [
-  process.env.CLIENT_URL,
-  'https://vicotorportfolio.netlify.app',
-  'http://localhost:5173'
-].filter(Boolean),
+    origin: allowedOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -76,7 +91,7 @@ const server = http.createServer(app);
 // Create Socket.IO server with CORS configuration
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
     credentials: true,
   },
@@ -88,6 +103,21 @@ app.get('/', (req, res) => {
 });
 
 // Routes
+app.get('/api/portfolio', (req, res) => {
+  res.status(200).json({
+    success: true,
+    data: {
+      projects,
+      experiences,
+      skills,
+      education,
+      certifications,
+      resumeData,
+      updatedAt: new Date().toISOString(),
+    },
+  });
+});
+
 app.post('/api/contact', async (req, res) => {
   try {
     const { name, email, message } = req.body;

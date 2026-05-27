@@ -21,6 +21,18 @@ const SEO = ({
   type = 'website',
 }) => {
   useEffect(() => {
+    const toAbsoluteUrl = (value) => {
+      if (!value) return '';
+      if (value.startsWith('http://') || value.startsWith('https://')) {
+        return value;
+      }
+      const origin = window.location.origin;
+      return value.startsWith('/') ? `${origin}${value}` : `${origin}/${value}`;
+    };
+
+    const absoluteUrl = toAbsoluteUrl(url || window.location.href);
+    const absoluteImage = toAbsoluteUrl(image);
+
     // Update or create meta tags
     const updateMetaTag = (name, content, isProperty = false) => {
       const attribute = isProperty ? 'property' : 'name';
@@ -47,16 +59,17 @@ const SEO = ({
     // Open Graph tags
     updateMetaTag('og:title', title, true);
     updateMetaTag('og:description', description, true);
-    updateMetaTag('og:image', image, true);
-    updateMetaTag('og:url', url, true);
+    updateMetaTag('og:image', absoluteImage, true);
+    updateMetaTag('og:url', absoluteUrl, true);
     updateMetaTag('og:type', type, true);
     updateMetaTag('og:site_name', 'Victor Kibiwott Portfolio', true);
 
     // Twitter Card tags
     updateMetaTag('twitter:card', 'summary_large_image');
+    updateMetaTag('twitter:url', absoluteUrl);
     updateMetaTag('twitter:title', title);
     updateMetaTag('twitter:description', description);
-    updateMetaTag('twitter:image', image);
+    updateMetaTag('twitter:image', absoluteImage);
     updateMetaTag('twitter:creator', '@victorkibiwott');
 
     // Canonical URL
@@ -66,16 +79,19 @@ const SEO = ({
       canonical.setAttribute('rel', 'canonical');
       document.head.appendChild(canonical);
     }
-    canonical.setAttribute('href', url);
+    canonical.setAttribute('href', absoluteUrl);
 
     // Language
     document.documentElement.setAttribute('lang', 'en');
 
     // Structured Data (JSON-LD) for better SEO
-    let structuredData = document.querySelector('script[type="application/ld+json"]');
+    let structuredData = document.querySelector(
+      'script[data-seo-schema="portfolio-person"]'
+    );
     if (!structuredData) {
       structuredData = document.createElement('script');
       structuredData.setAttribute('type', 'application/ld+json');
+      structuredData.setAttribute('data-seo-schema', 'portfolio-person');
       document.head.appendChild(structuredData);
     }
 
@@ -85,8 +101,8 @@ const SEO = ({
       name: 'Victor Kibiwott',
       jobTitle: 'Full Stack Developer',
       description: description,
-      url: url,
-      image: image,
+      url: absoluteUrl,
+      image: absoluteImage,
       sameAs: [
         'https://github.com/Victorkib',
         'https://www.linkedin.com/in/victor-kibiwott-b85537240',

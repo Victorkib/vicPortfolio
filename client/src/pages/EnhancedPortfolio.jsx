@@ -1,16 +1,31 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Code2, ExternalLink, Github, Terminal, Eye, Brain, X, Briefcase, Calendar, Award, Star, Zap, Users, CheckCircle, ArrowRight, Download, Mail, Linkedin, Twitter, Instagram, MapPin, Sparkles, Building, School, AlertCircle, Loader2, Axis3DIcon, FileText, Trophy } from 'lucide-react';
-import axios from 'axios';
-import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { Code2, ExternalLink, Github, Terminal, Eye, Brain, X, Briefcase, Calendar, Award, Star, Zap, Users, CheckCircle, ArrowRight, Download, Sparkles, Building, School, AlertCircle, Loader2, FileText, Trophy } from 'lucide-react';
 import SEO from '../components/SEO';
+import SectionHeader from '../components/SectionHeader';
+import ProjectMedia from '../components/ProjectMedia';
+import {
+  navItems,
+  heroSocialLinks,
+  footerSocialLinks,
+  contactInfo,
+} from '../content/portfolioUiContent';
+import { submitContactForm } from '../services/contactService';
+import {
+  defaultPortfolioContent,
+  fetchPortfolioContent,
+} from '../services/portfolioService';
+
+const certificationIconByKey = {
+  trophy: Trophy,
+  users: Users,
+  sparkles: Sparkles,
+};
 
 const Portfolio = () => {
   const [activeProject, setActiveProject] = useState(null);
-  const [activeTech, setActiveTech] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const projectsRef = useRef(null);
@@ -21,6 +36,12 @@ const Portfolio = () => {
   const certificationsRef = useRef(null); // Added certificationsRef
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [downloadFormat, setDownloadFormat] = useState('pdf');
+  const prefersReducedMotion = useReducedMotion();
+  const [portfolioContent, setPortfolioContent] = useState(
+    defaultPortfolioContent
+  );
+  const [isPortfolioLoading, setIsPortfolioLoading] = useState(true);
+  const [portfolioLoadError, setPortfolioLoadError] = useState('');
 
   // Form state
   const [formData, setFormData] = useState({
@@ -77,10 +98,7 @@ const Portfolio = () => {
 
     try {
       // Call our API route instead of directly calling Mailjet
-      const response = await axios.post(
-        'https://vicportfolio.onrender.com/api/contact',
-        formData
-      );
+      const response = await submitContactForm(formData);
       if (response.status) {
         setFormStatus({
           isSubmitting: false,
@@ -143,422 +161,83 @@ const Portfolio = () => {
     };
   }, []);
 
-  const projects = [
-    {
-      id: 1,
-      title: 'Project CyberVox',
-      type: 'Web Application',
-      description: 'Full-stack e-commerce platform',
-      preview: '/vocCyberImg.png?height=400&width=600',
-      techStack: ['React', 'Node.js', 'MongoDb', 'Express'],
-      links: {
-        live: 'https://res.cloudinary.com/victorkib/video/upload/v1756229166/vicPortfolio/vocCyberVid_v3er2j.mp4',
-        github: 'https://github.com/Victorkib/CyberCafeVoxxx.git',
-      },
-      metrics: {
-        performance: 98,
-        users: '10k+',
-        transactions: '50k+',
-      },
-      features: [
-        'Real-time inventory tracking',
-        'AR product visualization',
-        'AI-powered recommendations',
-      ],
-      codeSnippet: `
-        const handleARView = async (product) => {
-          const scene = new THREE.Scene();
-          const model = await loadProductModel(product.id);
-          scene.add(model);
-          startARSession(scene);
-        };
-      `,
-    },
-    {
-      id: 2,
-      title: 'Career Recomendation system',
-      type: 'Enterprise Solution',
-      description: 'Real-time Career Recommendation platform',
-      preview: '/CMSPic.png?height=400&width=600',
-      techStack: ['MongoDB', 'Express', 'React', 'NodeJS'],
-      links: {
-        live: 'https://res.cloudinary.com/victorkib/video/upload/v1763018642/vicPortfolio/C.M.S_demo_vdiejg.mp4',
-        github: 'https://github.com/Victorkib/career-management-system.git',
-      },
-      metrics: {
-        performance: 95,
-        dataPoints: '1M+',
-        syncRate: '99.99%',
-      },
-      features: [
-        'Multi-node architecture',
-        'Zero-downtime deployment',
-        'Automatic Career recommendations',
-      ],
-      codeSnippet: `
-          const { data, isLoading, error } = useQuery({
-            queryKey: ['recommendations'],
-            queryFn: () => fetchRecommendationsForUser(),
-            enabled: true,
-            onSuccess: (data) => {
-              console.log('Fetched recommendations:', data);
-              if (!recommendations) {
-                setRecommendations(data);
-              }
-            },
-            onError: (err) => {
-              console.error('Error fetching recommendations:', err);
-            },
-          });
-      `,
-    },
-    {
-      id: 3,
-      title: 'Menta Care',
-      type: 'Mobile Application',
-      description: 'Comprehensive health monitoring and analytics platform',
-      preview: '/MentaCarePic.jpg?height=400&width=600',
-      techStack: ['React Native', 'Firebase', 'TensorFlow.js', 'GraphQL'],
-      links: {
-        live: 'https://res.cloudinary.com/victorkib/video/upload/v1756229240/vicPortfolio/MentaCarePic_giwmbc.mp4',
-        github: 'https://github.com/Victorkib/mentalHealth.git',
-      },
-      metrics: {
-        performance: 92,
-        users: '25k+',
-        dataPoints: '5M+/day',
-      },
-      features: [
-        'Real-time health monitoring',
-        'AI-powered health insights',
-        'Secure medical data storage',
-        'Integration with wearable devices',
-      ],
-      codeSnippet: `
-        const analyzeHealthData = async (userData) => {
-          const model = await tf.loadLayersModel('healthai/model.json');
-          const tensor = tf.tensor2d([userData.metrics]);
-          const prediction = model.predict(tensor);
-          return {
-            risk: prediction[0].dataSync()[0],
-            recommendations: generateRecommendations(prediction)
-          };
-        };
-      `,
-    },
-    {
-      id: 4,
-      title: 'Events Hub',
-      type: 'Web Platform',
-      description: 'Urban Events management and monitoring system',
-      preview: '/MUEventsPic.png?height=400&width=600',
-      techStack: ['Node.js', 'MQTT', 'InfluxDB', 'Vue.js'],
-      links: {
-        live: 'https://res.cloudinary.com/victorkib/video/upload/v1756229444/vicPortfolio/MUEvents_akykpa.mp4',
-        github: 'https://github.com/Victorkib/EventMngtSystem.git',
-      },
-      metrics: {
-        performance: 97,
-        devices: '10k+',
-        uptime: '99.995%',
-      },
-      features: [
-        'Real-time traffic management',
-        'Environmental monitoring',
-        'Predictive maintenance',
-        'Energy optimization',
-      ],
-      codeSnippet: `
-        class SensorNetwork {
-          constructor(cityZone) {
-            this.zone = cityZone;
-            this.sensors = new Map();
-            this.client = mqtt.connect('mqtt://city-hub.io');
-            this.setupSubscriptions();
-            this.initializeAnalytics();
-          }
+  useEffect(() => {
+    let isMounted = true;
 
-          async processAnomalyDetection(data) {
-            const baseline = await this.getBaselineMetrics(data.sensorId);
-            return detectAnomalies(data, baseline);
-          }
+    const loadPortfolioContent = async () => {
+      try {
+        const dynamicContent = await fetchPortfolioContent();
+        if (isMounted) {
+          setPortfolioContent(dynamicContent);
+          setPortfolioLoadError('');
         }
-      `,
-    },
-  ];
+      } catch (error) {
+        console.error('Failed to load portfolio content from API.', error);
+        if (isMounted) {
+          setPortfolioLoadError(
+            'Unable to load portfolio content right now. Please try again in a moment.'
+          );
+        }
+      } finally {
+        if (isMounted) {
+          setIsPortfolioLoading(false);
+        }
+      }
+    };
 
-  const techStack = {
-    frontend: [
-      'React',
-      'Next.js',
-      'Three.js',
-      'Tailwind CSS',
-      'GSAP',
-      'Framer Motion',
-    ],
-    backend: ['Node.js', 'Express', 'MongoDB', 'Redis', 'GraphQL', 'WebSocket'],
-    mobile: ['React Native', 'Expo', 'Flutter', 'Firebase'],
-    devops: ['Docker', 'AWS', 'CI/CD', 'Kubernetes', 'GitHub Actions'],
-  };
+    loadPortfolioContent();
 
-  const experiences = [
-    {
-      id: 1,
-      company: 'Serenity Remote',
-      position: 'Full Stack Developer',
-      period: 'September 2023 - Present',
-      current: true,
-      description:
-        'Leading development of web applications and services for international clients.',
-      achievements: [
-        'Architected and developed scalable web applications using the MERN stack',
-        'Implemented responsive designs and optimized performance across devices',
-        'Collaborated with cross-functional teams to deliver high-quality solutions',
-        'Mentored junior developers and conducted code reviews',
-      ],
-      technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'AWS', 'Docker'],
-    },
-    {
-      id: 2,
-      company: 'Agile Business Solutions',
-      position: 'Attachment Trainee',
-      period: 'May 2024 - Sept 2024',
-      current: false,
-      description:
-        'Gained hands-on experience in full-stack development and software solutions.',
-      achievements: [
-        'Collaborated with teams to deliver web solutions and internal tools',
-        'Gained hands-on experience in full-stack development using the MERN stack',
-        'Participated in UI/UX design and conducted bug testing',
-        'Contributed to the development of an internal CRM system',
-      ],
-      technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'Git'],
-    },
-    {
-      id: 3,
-      company: 'Freelance Developer',
-      position: 'Independent Contractor',
-      period: 'Jun 2023 - Present',
-      current: true,
-      description:
-        'Providing custom web and mobile development solutions for diverse clients.',
-      achievements: [
-        'Delivered over 15 successful projects for clients across various industries',
-        'Developed custom e-commerce solutions with payment integration',
-        'Created mobile applications with React Native for iOS and Android platforms',
-        'Implemented SEO optimization and analytics tracking for client websites',
-      ],
-      technologies: [
-        'React',
-        'Next.js',
-        'React Native',
-        'MongoDB',
-        'Firebase',
-        'Tailwind CSS',
-      ],
-    },
-    {
-      id: 4,
-      company: 'Kholex Gaming Enterprises',
-      position: 'Co-Manager & Technical Lead',
-      period: 'Jan 2021 - Dec 2022',
-      current: false,
-      description:
-        'Oversaw daily operations and implemented technical solutions for gaming center.',
-      achievements: [
-        'Managed a team of 5 staff members and daily operations',
-        'Developed a custom booking and inventory management system',
-        'Implemented technical solutions to enhance customer experience',
-        'Increased revenue by 30% through strategic planning and marketing initiatives',
-      ],
-      technologies: [
-        'JavaScript',
-        'PHP',
-        'MySQL',
-        'HTML/CSS',
-        'Network Administration',
-      ],
-    },
-  ];
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
-  const skills = {
-    programming: [
-      { name: 'JavaScript', level: 95 },
-      { name: 'Java', level: 80 },
-      { name: 'C#', level: 70 },
-    ],
-    frameworks: [
-      { name: 'React', level: 95 },
-      { name: 'Node.js', level: 90 },
-      { name: 'Express', level: 90 },
-      { name: 'Next.js', level: 85 },
-      { name: 'React Native', level: 80 },
-      { name: 'Vue.js', level: 75 },
-    ],
-    databases: [
-      { name: 'MongoDB', level: 90 },
-      { name: 'MySQL', level: 85 },
-      { name: 'Firebase', level: 80 },
-      { name: 'PostgreSQL', level: 85 },
-      { name: 'Redis', level: 75 },
-    ],
-    tools: [
-      { name: 'Git', level: 95 },
-      { name: 'Visual Studio Code', level: 90 },
-      { name: 'MongoDB Compass', level: 85 },
-      { name: 'Postman', level: 80 },
-    ],
-  };
+  const { projects, experiences, skills, education, certifications, resumeData } =
+    portfolioContent;
 
-  const education = [
-    {
-      degree: 'Bachelor of Science in Computer Science',
-      institution: 'Machakos University',
-      period: '2020 - Present',
-      description:
-        'I successfully completed a four-year Bachelor of Science in Computer Science program, gaining a solid foundation in software development, data structures and algorithms, databases, artificial intelligence, and cybersecurity. For my final year project, I developed a full-stack mobile application to support mental health assessments using the MERN stack. During my studies, I actively participated in university technology events, coding bootcamps, and collaborative software development projects. I am currently awaiting graduation and official degree conferment.',
-    },
-    {
-      degree: 'High School Diploma',
-      institution: 'Anestar Boys High School Lanet',
-      period: '2017 - 2021',
-      description:
-        'I earned a solid overall grade of B in the Kenya Certificate of Secondary Education, with strong performance in Mathematics, Physics, and Computer Studies, while actively participating in the ICT club, science and technology fairs, and demonstrating leadership and teamwork through academic group projects and extracurricular activities',
-    },
-    {
-      degree: 'Primary School Certificate',
-      institution: 'Immaculate Parochial School',
-      period: 'December 2016',
-      description:
-        'Achieved a cumulative score of 375 with standout results in Mathematics, English, and Science. Actively involved in the Computer Club and participated in various science and technology exhibitions. Showcased strong leadership, collaboration, and problem-solving abilities through group assignments and co-curricular activities. Consistently maintained a disciplined academic record, earning recognition for reliability and dedication.',
-    },
-  ];
+  const certificationsWithIcons = certifications.map((certification) => ({
+    ...certification,
+    icon: certificationIconByKey[certification.iconKey] || Award,
+  }));
 
-  const certifications = [
-    {
-      id: 1,
-      title: 'Advanced JavaScript & Web Development',
-      issuer: 'Agile Business Solutions',
-      date: 'August 2024',
-      description:
-        'Comprehensive certification in advanced JavaScript concepts, modern web development frameworks, and best practices in full-stack development.',
-      skills: ['JavaScript', 'React', 'Node.js', 'Best Practices'],
-      icon: Trophy,
-    },
-    {
-      id: 2,
-      title: 'Google Developer Groups - Tech Leadership',
-      issuer: 'GDG - Google Developer Groups',
-      date: 'July 2024 - Completed', // Updated to show completion date
-      description:
-        'Active member and contributor to Google Developer Groups, participating in tech talks, workshops, and community-driven initiatives to advance technology awareness and leadership.',
-      skills: ['Community Leadership', 'Tech Mentorship', 'Web Technologies'],
-      icon: Users,
-    },
-    {
-      id: 3,
-      title: 'Hackfest 2024 - Winner', // Updated to reflect winning status
-      issuer: 'Machakos University Hackathon',
-      date: 'November 2024',
-      description:
-        'Won Machakos University Hackfest 2024 by delivering innovative Mental Health solution and demonstrating exceptional problem-solving skills and rapid development capabilities in a competitive environment.',
-      skills: ['Problem Solving', 'Rapid Development', 'Innovation', 'Leadership'],
-      icon: Sparkles,
-    },
-  ];
+  if (isPortfolioLoading) {
+    return (
+      <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center px-4">
+        <div className="flex items-center gap-3 text-slate-200">
+          <Loader2 className="w-6 h-6 animate-spin text-purple-400" />
+          <span>Loading portfolio...</span>
+        </div>
+      </div>
+    );
+  }
 
-  // Resume data for PDF generation
-  const resumeData = {
-    personalInfo: {
-      name: 'VICTOR KIBIWOTT',
-      address: '81-20103',
-      phone: '0792454039',
-      email: 'victor3720kibiwott@gmail.com',
-      linkedin: 'https://www.linkedin.com/in/victor-kibiwott-b85537240/',
-      summary:
-        'Tech professional with hands-on experience in both front-end and back-end development. Adept at designing user interfaces, building server-side applications, and ensuring database integrity. Committed to delivering quality software solutions through collaborative teamwork and continuous learning of new technologies.',
-    },
-    experiences: [
-      {
-        position: 'FULL STACK DEVELOPER',
-        company: 'SERENITY AI (REMOTE)',
-        period: 'SEPTEMBER 2024 – CURRENT',
-        responsibilities: [
-          'Developed and maintained full-stack web applications using JavaScript, React, and Node.js, enhancing user experience and functionality.',
-          'Applied best practices in security, including OAuth and JWT, to safeguard user data and protect against cyber threats.',
-          'Participated in agile development processes, contributing to sprint planning, daily stand-ups, and retrospectives to enhance project outcomes.',
-        ],
-      },
-      {
-        position: 'FULL STACK DEVELOPER INTERN',
-        company: 'AGILE BUSINESS SOLUTIONS',
-        period: 'MARCH 2024 – AUGUST 2024',
-        responsibilities: [
-          'Designed and implemented RESTful APIs, enabling effective communication between front-end and back-end systems.',
-          'Engaged in code reviews to maintain high standards of code quality, fostering a culture of excellence and mutual accountability.',
-          'Optimised application performance through code refactoring and leveraging caching mechanisms, significantly reducing load times.',
-        ],
-      },
-    ],
-    education: [
-      {
-        degree: 'COMPUTER SCIENCE',
-        institution: 'MACHAKOS UNIVERSITY',
-        period: 'SEPTEMBER 2025',
-        description:
-          'Currently pursuing a Bachelor of Science in Computer Science',
-      },
-      {
-        degree: 'HIGH SCHOOL CERTIFICATE',
-        institution: 'ANESTAR BOYS LANET',
-        period: 'MARCH 2021',
-        description:
-          'Achieve a substantial grade of B in my Kenya Certificate of Secondary Education (KSCE)',
-      },
-      { // Added primary school education to resume data for PDF
-        degree: 'PRIMARY SCHOOL CERTIFICATE',
-        institution: 'IMMACULATE PAROCHIAL SCHOOL',
-        period: 'DECEMBER 2016',
-        description:
-          'Achieved a cumulative score of 375 with standout results in Mathematics, English, and Science.',
-      },
-    ],
-    skills: [
-      'Restful web services',
-      'Front End Development - React JS, Next JS, React Native, Redux, Tailwind CSS, HTML and CSS',
-      'App Development – React Native, Expo, Redux',
-      'Cloud Technologies - Firebase',
-      'Backend Development - Express JS, Node JS, C#',
-      'Database Development with MySQL, Firebase, MongoDB',
-      'Payment Integration APIs – Stripe API, Paystack, Daraja API',
-      'AI Development with Gemini-api and Openai-api',
-    ],
-    activities:
-      "As a dedicated full MERN stack developer, I am passionate about leveraging technology to solve real-world problems and create impactful applications. My interests extend beyond coding—I'm actively involved in tech communities where I mentor aspiring developers and contribute to open-source projects. I am certified in advanced JavaScript and web development frameworks, continually building my skill set to stay at the forefront of industry trends.\n\nI enjoy volunteering with local organizations to promote digital literacy, helping bridge the technology gap. Additionally, I have led project teams on cross-functional initiatives, strengthening my leadership and collaboration skills. My work has been featured in tech blogs, and I'm fluent in both English and Swahili. These experiences shape my holistic approach to development, combining technical expertise with a dedication to community and growth.",
-    certifications: [ // Added certifications to resumeData
-      {
-        title: 'Advanced JavaScript & Web Development',
-        issuer: 'Agile Business Solutions',
-        date: 'August 2024',
-      },
-      {
-        title: 'Google Developer Groups - Tech Leadership',
-        issuer: 'GDG - Google Developer Groups',
-        date: 'July 2024 - Completed',
-      },
-      {
-        title: 'Hackfest 2024 - Winner',
-        issuer: 'Machakos University Hackathon',
-        date: 'November 2024',
-      },
-    ],
-  };
+  if (portfolioLoadError) {
+    return (
+      <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center px-4">
+        <div className="max-w-xl w-full bg-slate-800 border border-red-500/30 rounded-xl p-6 text-center">
+          <h1 className="text-2xl font-semibold mb-3">Portfolio Unavailable</h1>
+          <p className="text-slate-300 mb-6">{portfolioLoadError}</p>
+          <a
+            href="/"
+            className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 transition-colors"
+          >
+            Reload
+          </a>
+        </div>
+      </div>
+    );
+  }
 
   // Function to generate and download PDF resume
-  const generatePDFResume = () => {
+  const generatePDFResume = async () => {
     setIsGeneratingPDF(true);
 
     try {
+      const [{ jsPDF }] = await Promise.all([
+        import('jspdf'),
+        import('jspdf-autotable'),
+      ]);
+
       // Create a new PDF document
       const doc = new jsPDF({
         orientation: 'portrait',
@@ -1015,9 +694,9 @@ const Portfolio = () => {
   };
 
   // Function to handle resume download based on selected format
-  const handleResumeDownload = () => {
+  const handleResumeDownload = async () => {
     if (downloadFormat === 'pdf') {
-      generatePDFResume();
+      await generatePDFResume();
     } else {
       generateDOCXResume();
     }
@@ -1028,11 +707,14 @@ const Portfolio = () => {
     const canvasRef = useRef(null);
 
     useEffect(() => {
+      if (prefersReducedMotion) return undefined;
+
       const canvas = canvasRef.current;
       if (!canvas) return;
 
       const ctx = canvas.getContext('2d');
       const particles = [];
+      let animationFrameId;
 
       const resizeCanvas = () => {
         canvas.width = window.innerWidth;
@@ -1043,7 +725,11 @@ const Portfolio = () => {
       window.addEventListener('resize', resizeCanvas);
 
       // Initialize particles
-      for (let i = 0; i < 100; i++) {
+      const particleCount = Math.min(
+        90,
+        Math.max(35, Math.floor((canvas.width * canvas.height) / 25000))
+      );
+      for (let i = 0; i < particleCount; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
@@ -1094,15 +780,20 @@ const Portfolio = () => {
             particle.speedY *= -1;
         });
 
-        requestAnimationFrame(animate);
+        animationFrameId = requestAnimationFrame(animate);
       };
 
       animate();
 
       return () => {
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+        }
         window.removeEventListener('resize', resizeCanvas);
       };
-    }, []);
+    }, [prefersReducedMotion]);
+
+    if (prefersReducedMotion) return null;
 
     return (
       <canvas
@@ -1187,9 +878,10 @@ const Portfolio = () => {
                   className="p-6 md:p-8"
                 >
                   <div className="aspect-video rounded-xl overflow-hidden mb-6 border border-slate-700 shadow-lg">
-                    <img
-                      src={project.preview || '/placeholder.svg'}
-                      alt={project.title}
+                    <ProjectMedia
+                      project={project}
+                      variant="video"
+                      controls
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -1421,14 +1113,7 @@ const Portfolio = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            {[
-              { name: 'Home', href: '#home' },
-              { name: 'Projects', href: '#projects' },
-              { name: 'Experience', href: '#experience' },
-              { name: 'Certifications', href: '#certifications' }, // Added Certifications link
-              { name: 'Skills', href: '#skills' },
-              { name: 'Contact', href: '#contact' },
-            ].map((item) => (
+            {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
@@ -1470,14 +1155,7 @@ const Portfolio = () => {
               className="md:hidden bg-slate-900 border-b border-slate-800"
             >
               <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
-                {[
-                  { name: 'Home', href: '#home' },
-                  { name: 'Projects', href: '#projects' },
-                  { name: 'Experience', href: '#experience' },
-                  { name: 'Certifications', href: '#certifications' }, // Added Certifications link
-                  { name: 'Skills', href: '#skills' },
-                  { name: 'Contact', href: '#contact' },
-                ].map((item) => (
+                {navItems.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}
@@ -1580,30 +1258,23 @@ const Portfolio = () => {
                 transition={{ delay: 0.5, duration: 0.5 }}
                 className="mt-16 flex justify-center gap-6"
               >
-                {[
-                  {
-                    icon: <Github className="w-5 h-5" />,
-                    url: 'https://github.com/Victorkib',
-                  },
-                  {
-                    icon: <Linkedin className="w-5 h-5" />,
-                    url: 'https://www.linkedin.com/in/victor-kibiwott-b85537240/',
-                  },
-                  { icon: <Twitter className="w-5 h-5" />, url: '#' },
-                  { icon: <Instagram className="w-5 h-5" />, url: '#' },
-                ].map((social, index) => (
+                {heroSocialLinks.map((social) => {
+                  const IconComponent = social.icon;
+                  return (
                   <motion.a
-                    key={index}
+                    key={social.id}
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={social.label}
                     whileHover={{ scale: 1.2, rotate: 5 }}
                     whileTap={{ scale: 0.9 }}
                     className="w-10 h-10 bg-slate-800 hover:bg-purple-600 transition-colors rounded-full flex items-center justify-center text-white"
                   >
-                    {social.icon}
+                    <IconComponent className="w-5 h-5" />
                   </motion.a>
-                ))}
+                  );
+                })}
               </motion.div>
             </div>
           </div>
@@ -1612,34 +1283,10 @@ const Portfolio = () => {
         {/* Projects Grid */}
         <section id="projects" ref={projectsRef} className="py-20 px-4">
           <div className="container mx-auto">
-            <div className="text-center mb-16">
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="text-4xl font-bold mb-4"
-              >
-                Featured Projects
-              </motion.h2>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="w-20 h-1.5 bg-purple-600 mx-auto mb-6 rounded-full"
-              ></motion.div>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="max-w-2xl mx-auto text-slate-300 text-lg"
-              >
-                Explore my latest work and technical projects that showcase my
-                skills and expertise
-              </motion.p>
-            </div>
+            <SectionHeader
+              title="Featured Projects"
+              description="Explore my latest work and technical projects that showcase my skills and expertise"
+            />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {projects.map((project, index) => (
@@ -1647,6 +1294,15 @@ const Portfolio = () => {
                   key={project.id}
                   layoutId={`project-${project.id}`}
                   onClick={() => setActiveProject(project)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      setActiveProject(project);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Open project details for ${project.title}`}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -1655,9 +1311,8 @@ const Portfolio = () => {
                   whileHover={{ y: -5 }}
                 >
                   <div className="aspect-video relative overflow-hidden">
-                    <img
-                      src={project.preview || '/placeholder.svg'}
-                      alt={project.title}
+                    <ProjectMedia
+                      project={project}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent opacity-60"></div>
@@ -1710,7 +1365,10 @@ const Portfolio = () => {
                           <span>Code</span>
                         </a>
                       </div>
-                      <button className="text-white bg-purple-600 hover:bg-purple-700 transition-colors rounded-full w-8 h-8 flex items-center justify-center">
+                      <button
+                        type="button"
+                        className="text-white bg-purple-600 hover:bg-purple-700 transition-colors rounded-full w-8 h-8 flex items-center justify-center"
+                      >
                         <ArrowRight className="w-4 h-4" />
                       </button>
                     </div>
@@ -1728,34 +1386,10 @@ const Portfolio = () => {
           className="py-20 px-4 bg-slate-800/30"
         >
           <div className="container mx-auto py-20 px-4 bg-slate-800/30 ">
-            <div className="text-center mb-16">
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="text-4xl font-bold mb-4"
-              >
-                Professional Journey
-              </motion.h2>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="w-20 h-1.5 bg-purple-600 mx-auto mb-6 rounded-full"
-              ></motion.div>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="max-w-2xl mx-auto text-slate-300 text-lg"
-              >
-                My career path and professional experiences that have shaped my
-                skills and expertise
-              </motion.p>
-            </div>
+            <SectionHeader
+              title="Professional Journey"
+              description="My career path and professional experiences that have shaped my skills and expertise"
+            />
 
             <div className="max-w-4xl mx-auto">
               {experiences.map((experience, index) => (
@@ -1851,37 +1485,13 @@ const Portfolio = () => {
           className="py-20 px-4"
         >
           <div className="container mx-auto">
-            <div className="text-center mb-16">
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="text-4xl font-bold mb-4"
-              >
-                Certifications & Achievements
-              </motion.h2>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="w-20 h-1.5 bg-purple-600 mx-auto mb-6 rounded-full"
-              ></motion.div>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="max-w-2xl mx-auto text-slate-300 text-lg"
-              >
-                Professional certifications and recognitions that demonstrate my
-                commitment to continuous learning and excellence
-              </motion.p>
-            </div>
+            <SectionHeader
+              title="Certifications & Achievements"
+              description="Professional certifications and recognitions that demonstrate my commitment to continuous learning and excellence"
+            />
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {certifications.map((cert, index) => {
+              {certificationsWithIcons.map((cert, index) => {
                 const IconComponent = cert.icon;
                 return (
                   <motion.div
@@ -1937,33 +1547,10 @@ const Portfolio = () => {
         {/* Skills & Education Section */}
         <section id="skills" ref={skillsRef} className="py-20 px-4 bg-slate-800/30">
           <div className="container mx-auto">
-            <div className="text-center mb-16">
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="text-4xl font-bold mb-4"
-              >
-                Skills & Education
-              </motion.h2>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="w-20 h-1.5 bg-purple-600 mx-auto mb-6 rounded-full"
-              ></motion.div>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="max-w-2xl mx-auto text-slate-300 text-lg"
-              >
-                My technical expertise and educational background
-              </motion.p>
-            </div>
+            <SectionHeader
+              title="Skills & Education"
+              description="My technical expertise and educational background"
+            />
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2">
@@ -2118,34 +1705,10 @@ const Portfolio = () => {
           className="py-20 px-4 bg-slate-800/30"
         >
           <div className="container mx-auto">
-            <div className="text-center mb-16">
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="text-4xl font-bold mb-4"
-              >
-                Get In Touch
-              </motion.h2>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="w-20 h-1.5 bg-purple-600 mx-auto mb-6 rounded-full"
-              ></motion.div>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="max-w-2xl mx-auto text-slate-300 text-lg"
-              >
-                I'm currently seeking new opportunities to contribute to
-                innovative projects and grow as a developer
-              </motion.p>
-            </div>
+            <SectionHeader
+              title="Get In Touch"
+              description="I'm currently seeking new opportunities to contribute to innovative projects and grow as a developer"
+            />
 
             <div className="max-w-5xl mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -2161,72 +1724,39 @@ const Portfolio = () => {
                   </h3>
 
                   <div className="space-y-6">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-purple-600/20 rounded-full flex items-center justify-center flex-shrink-0">
-                        <Mail className="w-6 h-6 text-purple-400" />
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-medium text-white mb-1">
-                          Email
-                        </h4>
-                        <a
-                          href="mailto:victo33720kibiwott@gmail.com"
-                          className="text-slate-300 hover:text-purple-400 transition-colors"
-                        >
-                          victor3720kibiwott@gmail.com
-                        </a>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-purple-600/20 rounded-full flex items-center justify-center flex-shrink-0">
-                        <MapPin className="w-6 h-6 text-purple-400" />
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-medium text-white mb-1">
-                          Location
-                        </h4>
-                        <p className="text-slate-300">Nairobi, Kenya</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-purple-600/20 rounded-full flex items-center justify-center flex-shrink-0">
-                        <Linkedin className="w-6 h-6 text-purple-400" />
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-medium text-white mb-1">
-                          LinkedIn
-                        </h4>
-                        <a
-                          href="www.linkedin.com/in/victor-kibiwott-b85537240"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-slate-300 hover:text-purple-400 transition-colors"
-                        >
-                          Victor Kibiwott
-                        </a>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-purple-600/20 rounded-full flex items-center justify-center flex-shrink-0">
-                        <Github className="w-6 h-6 text-purple-400" />
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-medium text-white mb-1">
-                          GitHub
-                        </h4>
-                        <a
-                          href="https://github.com/Victorkib"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-slate-300 hover:text-purple-400 transition-colors"
-                        >
-                          @victorkibiwott
-                        </a>
-                      </div>
-                    </div>
+                    {contactInfo.map((item) => {
+                      const IconComponent = item.icon;
+                      return (
+                        <div key={item.id} className="flex items-start gap-4">
+                          <div className="w-12 h-12 bg-purple-600/20 rounded-full flex items-center justify-center flex-shrink-0">
+                            <IconComponent className="w-6 h-6 text-purple-400" />
+                          </div>
+                          <div>
+                            <h4 className="text-lg font-medium text-white mb-1">
+                              {item.label}
+                            </h4>
+                            {item.href ? (
+                              <a
+                                href={item.href}
+                                target={
+                                  item.href.startsWith('mailto:') ? undefined : '_blank'
+                                }
+                                rel={
+                                  item.href.startsWith('mailto:')
+                                    ? undefined
+                                    : 'noopener noreferrer'
+                                }
+                                className="text-slate-300 hover:text-purple-400 transition-colors"
+                              >
+                                {item.value}
+                              </a>
+                            ) : (
+                              <p className="text-slate-300">{item.value}</p>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </motion.div>
 
@@ -2354,28 +1884,21 @@ const Portfolio = () => {
             </div>
 
             <div className="flex gap-4">
-              {[
-                {
-                  icon: <Github className="w-5 h-5" />,
-                  url: 'https://github.com/victorkibiwott',
-                },
-                {
-                  icon: <Linkedin className="w-5 h-5" />,
-                  url: 'https://www.linkedin.com/in/victor-kibiwott-b85537240',
-                },
-                { icon: <Twitter className="w-5 h-5" />, url: '#' },
-                { icon: <Instagram className="w-5 h-5" />, url: '#' },
-              ].map((social, index) => (
+              {footerSocialLinks.map((social) => {
+                const IconComponent = social.icon;
+                return (
                 <a
-                  key={index}
+                  key={social.id}
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={social.label}
                   className="w-10 h-10 bg-slate-800 hover:bg-purple-600 transition-colors rounded-full flex items-center justify-center text-white"
                 >
-                  {social.icon}
+                  <IconComponent className="w-5 h-5" />
                 </a>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
