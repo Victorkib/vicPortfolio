@@ -9,6 +9,17 @@ export const navItems = [
   { name: 'Contact', href: '#contact' },
 ];
 
+export const heroContent = {
+  name: 'Victor Kibiwott',
+  role: 'Full Stack Developer',
+  headline: 'I build reliable MERN products that look premium and scale cleanly.',
+  subheadline:
+    'From API design to polished interfaces — focused on performance, maintainability, and real-world impact.',
+  profileImage: '/qin.jpeg',
+  availability: 'Open to full-time, contract, and remote opportunities',
+  location: 'Nairobi, Kenya',
+};
+
 export const heroSocialLinks = [
   {
     id: 'github',
@@ -24,20 +35,7 @@ export const heroSocialLinks = [
   },
 ];
 
-export const footerSocialLinks = [
-  {
-    id: 'github',
-    icon: Github,
-    url: 'https://github.com/Victorkib',
-    label: 'GitHub',
-  },
-  {
-    id: 'linkedin',
-    icon: Linkedin,
-    url: 'https://www.linkedin.com/in/victor-kibiwott-b85537240/',
-    label: 'LinkedIn',
-  },
-];
+export const footerSocialLinks = heroSocialLinks;
 
 export const contactInfo = [
   {
@@ -63,7 +61,7 @@ export const contactInfo = [
   {
     id: 'github',
     label: 'GitHub',
-    value: '@victorkibiwott',
+    value: '@Victorkib',
     href: 'https://github.com/Victorkib',
     icon: Github,
   },
