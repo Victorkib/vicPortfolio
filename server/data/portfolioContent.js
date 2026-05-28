@@ -169,49 +169,65 @@ export const projects = [
 export const experiences = [
   {
     id: 1,
-    company: 'Serenity Remote',
+    company: 'Globeconcs Convergence Solutions',
+    position: 'ICT Developer',
+    period: 'January 2026 - Present',
+    current: true,
+    description:
+      'Contributing to MIS and web platforms for social protection and public-sector programs.',
+    achievements: [
+      'Built and maintained management information systems for social impact workflows',
+      'Collaborated with senior engineers to deliver secure and scalable project implementations',
+      'Troubleshot production issues and improved platform reliability',
+      'Researched and introduced tools that improved system performance and delivery speed',
+    ],
+    technologies: ['React', 'Node.js', 'Express', 'MySQL', 'Supabase', 'Git'],
+  },
+  {
+    id: 2,
+    company: 'MentaCare (Remote)',
     position: 'Full Stack Developer',
     period: 'September 2023 - Present',
     current: true,
     description:
-      'Leading development of web applications and services for international clients.',
+      'Developed and maintained full-stack solutions for healthcare-focused product workflows.',
     achievements: [
-      'Architected and developed scalable web applications using the MERN stack',
-      'Implemented responsive designs and optimized performance across devices',
-      'Collaborated with cross-functional teams to deliver high-quality solutions',
-      'Mentored junior developers and conducted code reviews',
+      'Developed and maintained web applications using JavaScript, React, and Node.js',
+      'Applied OAuth and JWT practices to improve application security',
+      'Contributed in agile ceremonies including planning, standups, and retrospectives',
+      'Optimized user experience and performance across core application modules',
     ],
-    technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'AWS', 'Docker'],
-  },
-  {
-    id: 2,
-    company: 'Agile Business Solutions',
-    position: 'Attachment Trainee',
-    period: 'May 2024 - Sept 2024',
-    current: false,
-    description:
-      'Gained hands-on experience in full-stack development and software solutions.',
-    achievements: [
-      'Collaborated with teams to deliver web solutions and internal tools',
-      'Gained hands-on experience in full-stack development using the MERN stack',
-      'Participated in UI/UX design and conducted bug testing',
-      'Contributed to the development of an internal CRM system',
-    ],
-    technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'Git'],
+    technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'JWT', 'OAuth'],
   },
   {
     id: 3,
+    company: 'Agile Business Solutions',
+    position: 'Attachment Trainee',
+    period: 'May 2024 - September 2024',
+    current: false,
+    description:
+      'Gained practical full-stack exposure through client projects and internal solutions.',
+    achievements: [
+      'Collaborated with teams to deliver web solutions and internal tools',
+      'Built hands-on MERN stack delivery skills in production-like environments',
+      'Participated in UI/UX design and bug validation workflows',
+      'Contributed to the development of an internal CRM system',
+    ],
+    technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'Git', 'Postman'],
+  },
+  {
+    id: 4,
     company: 'Freelance Developer',
     position: 'Independent Contractor',
-    period: 'Jun 2023 - Present',
+    period: 'January 2023 - Present',
     current: true,
     description:
-      'Providing custom web and mobile development solutions for diverse clients.',
+      'Delivering custom web and mobile products for clients across multiple industries.',
     achievements: [
-      'Delivered over 15 successful projects for clients across various industries',
-      'Developed custom e-commerce solutions with payment integration',
-      'Created mobile applications with React Native for iOS and Android platforms',
-      'Implemented SEO optimization and analytics tracking for client websites',
+      'Delivered over 15 successful projects for diverse client needs',
+      'Implemented payment-ready e-commerce and service platforms',
+      'Built React Native apps for Android and iOS use cases',
+      'Improved discoverability through SEO and analytics integration',
     ],
     technologies: [
       'React',
@@ -223,7 +239,7 @@ export const experiences = [
     ],
   },
   {
-    id: 4,
+    id: 5,
     company: 'Kholex Gaming Enterprises',
     position: 'Co-Manager & Technical Lead',
     period: 'Jan 2021 - Dec 2022',
@@ -249,29 +265,30 @@ export const experiences = [
 export const skills = {
   programming: [
     { name: 'JavaScript', level: 95 },
-    { name: 'Java', level: 80 },
-    { name: 'C#', level: 70 },
+    { name: 'Java', level: 86 },
+    { name: 'C#', level: 84 },
   ],
   frameworks: [
     { name: 'React', level: 95 },
     { name: 'Node.js', level: 90 },
     { name: 'Express', level: 90 },
     { name: 'Next.js', level: 85 },
-    { name: 'React Native', level: 80 },
-    { name: 'Vue.js', level: 75 },
+    { name: 'React Native', level: 87 },
+    { name: 'Redux', level: 84 },
   ],
   databases: [
     { name: 'MongoDB', level: 90 },
     { name: 'MySQL', level: 85 },
-    { name: 'Firebase', level: 80 },
-    { name: 'PostgreSQL', level: 85 },
-    { name: 'Redis', level: 75 },
+    { name: 'Firebase', level: 88 },
+    { name: 'Supabase', level: 86 },
+    { name: 'SQL Server (SSMS)', level: 84 },
   ],
   tools: [
     { name: 'Git', level: 95 },
     { name: 'Visual Studio Code', level: 90 },
-    { name: 'MongoDB Compass', level: 85 },
-    { name: 'Postman', level: 80 },
+    { name: 'Postman', level: 84 },
+    { name: 'n8n', level: 89 },
+    { name: 'Power BI', level: 85 },
   ],
 };
 
@@ -279,9 +296,9 @@ export const education = [
   {
     degree: 'Bachelor of Science in Computer Science',
     institution: 'Machakos University',
-    period: '2020 - Present',
+    period: 'Graduated September 2025',
     description:
-      'I successfully completed a four-year Bachelor of Science in Computer Science program, gaining a solid foundation in software development, data structures and algorithms, databases, artificial intelligence, and cybersecurity. For my final year project, I developed a full-stack mobile application to support mental health assessments using the MERN stack. During my studies, I actively participated in university technology events, coding bootcamps, and collaborative software development projects. I am currently awaiting graduation and official degree conferment.',
+      'Completed a four-year program with strong grounding in software engineering, data structures, databases, AI, and cybersecurity. Final-year project focused on a MERN-based mental health assessment app. Graduated with Second Class Honors (Upper Division).',
   },
   {
     degree: 'High School Diploma',
@@ -327,7 +344,12 @@ export const certifications = [
     date: 'November 2024',
     description:
       'Won Machakos University Hackfest 2024 by delivering innovative Mental Health solution and demonstrating exceptional problem-solving skills and rapid development capabilities in a competitive environment.',
-    skills: ['Problem Solving', 'Rapid Development', 'Innovation', 'Leadership'],
+    skills: [
+      'Problem Solving',
+      'Rapid Development',
+      'Innovation',
+      'Leadership',
+    ],
     iconKey: 'sparkles',
   },
 ];
@@ -344,23 +366,33 @@ export const resumeData = {
   },
   experiences: [
     {
-      position: 'FULL STACK DEVELOPER',
-      company: 'SERENITY AI (REMOTE)',
-      period: 'SEPTEMBER 2024 – CURRENT',
+      position: 'ICT DEVELOPER',
+      company: 'GLOBECONCS CONVERGENCE SOLUTIONS',
+      period: 'JANUARY 2026 – CURRENT',
       responsibilities: [
-        'Developed and maintained full-stack web applications using JavaScript, React, and Node.js, enhancing user experience and functionality.',
-        'Applied best practices in security, including OAuth and JWT, to safeguard user data and protect against cyber threats.',
-        'Participated in agile development processes, contributing to sprint planning, daily stand-ups, and retrospectives to enhance project outcomes.',
+        'Contributed to MIS and web-based solutions for social protection and public sector programs.',
+        'Collaborated with senior engineers to troubleshoot and deliver scalable, secure projects.',
+        'Researched and integrated technologies that improved system performance and delivery.',
       ],
     },
     {
-      position: 'FULL STACK DEVELOPER INTERN',
-      company: 'AGILE BUSINESS SOLUTIONS',
-      period: 'MARCH 2024 – AUGUST 2024',
+      position: 'FULL STACK DEVELOPER',
+      company: 'MENTACARE (REMOTE)',
+      period: 'SEPTEMBER 2023 – CURRENT',
       responsibilities: [
-        'Designed and implemented RESTful APIs, enabling effective communication between front-end and back-end systems.',
-        'Engaged in code reviews to maintain high standards of code quality, fostering a culture of excellence and mutual accountability.',
-        'Optimised application performance through code refactoring and leveraging caching mechanisms, significantly reducing load times.',
+        'Developed and maintained full-stack applications with React and Node.js.',
+        'Applied OAuth and JWT security standards in user-facing systems.',
+        'Contributed in agile ceremonies and incremental feature delivery.',
+      ],
+    },
+    {
+      position: 'ATTACHMENT TRAINEE',
+      company: 'AGILE BUSINESS SOLUTIONS',
+      period: 'MAY 2024 – SEPTEMBER 2024',
+      responsibilities: [
+        'Collaborated with teams to deliver client web solutions and internal tools.',
+        'Participated in UI/UX design and structured bug-testing workflows.',
+        'Contributed to the development of an internal CRM platform.',
       ],
     },
   ],
@@ -369,7 +401,8 @@ export const resumeData = {
       degree: 'COMPUTER SCIENCE',
       institution: 'MACHAKOS UNIVERSITY',
       period: 'SEPTEMBER 2025',
-      description: 'Currently pursuing a Bachelor of Science in Computer Science',
+      description:
+        'Completed BSc Computer Science with Second Class Honors (Upper Division).',
     },
     {
       degree: 'HIGH SCHOOL CERTIFICATE',
@@ -388,13 +421,17 @@ export const resumeData = {
   ],
   skills: [
     'Restful web services',
+    'WordPress services',
     'Front End Development - React JS, Next JS, React Native, Redux, Tailwind CSS, HTML and CSS',
-    'App Development – React Native, Expo, Redux',
-    'Cloud Technologies - Firebase',
+    'App Development - React Native, Expo, Redux',
+    'Cloud Technologies - Firebase, Supabase, Cloudinary, Google Cloud Console',
     'Backend Development - Express JS, Node JS, C#',
-    'Database Development with MySQL, Firebase, MongoDB',
+    'Database Development with MySQL, Firebase, MongoDB, Supabase',
     'Payment Integration APIs – Stripe API, Paystack, Daraja API',
-    'AI Development with Gemini-api and Openai-api',
+    'AI Development with Gemini API and OpenAI API integration',
+    'n8n workflow automation',
+    'Power BI system management',
+    'SQL Server Management Studio (SSMS)',
   ],
   activities:
     "As a dedicated full MERN stack developer, I am passionate about leveraging technology to solve real-world problems and create impactful applications. My interests extend beyond coding—I'm actively involved in tech communities where I mentor aspiring developers and contribute to open-source projects. I am certified in advanced JavaScript and web development frameworks, continually building my skill set to stay at the forefront of industry trends.\n\nI enjoy volunteering with local organizations to promote digital literacy, helping bridge the technology gap. Additionally, I have led project teams on cross-functional initiatives, strengthening my leadership and collaboration skills. My work has been featured in tech blogs, and I'm fluent in both English and Swahili. These experiences shape my holistic approach to development, combining technical expertise with a dedication to community and growth.",

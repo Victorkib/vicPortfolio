@@ -21,6 +21,7 @@ import {
   generateDOCXResume,
   generatePDFResume,
 } from '../utils/resumeGenerator';
+import { skillDetailProfiles } from '../content/portfolioUiContent';
 
 const certificationIconByKey = {
   trophy: Trophy,
@@ -219,7 +220,9 @@ const Portfolio = () => {
         <SkillsSection
           sectionRef={skillsRef}
           skills={skills}
+          projects={projects}
           education={education}
+          skillProfiles={skillDetailProfiles}
           downloadFormat={downloadFormat}
           setDownloadFormat={setDownloadFormat}
           isGeneratingPDF={isGeneratingPDF}
