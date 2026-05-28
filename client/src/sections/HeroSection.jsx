@@ -6,7 +6,11 @@ import Button from '../components/ui/Button';
 import Badge from '../components/ui/Badge';
 
 const HeroSection = ({ sectionRef, stats }) => (
-  <section id="home" ref={sectionRef} className="section-pad flex min-h-screen items-center pt-28">
+  <section
+    id="home"
+    ref={sectionRef}
+    className="section-pad flex min-h-screen items-center pt-28"
+  >
     <Container>
       <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
         <motion.div
@@ -29,7 +33,9 @@ const HeroSection = ({ sectionRef, stats }) => (
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-300">
             {heroContent.headline}
           </p>
-          <p className="mt-3 max-w-xl text-sm text-slate-400">{heroContent.subheadline}</p>
+          <p className="mt-3 max-w-xl text-sm text-slate-400">
+            {heroContent.subheadline}
+          </p>
 
           <div className="mt-6 flex items-center gap-2 text-sm text-slate-400">
             <MapPin className="h-4 w-4 text-violet-400" />
@@ -86,7 +92,9 @@ const HeroSection = ({ sectionRef, stats }) => (
           <div className="mt-6 grid grid-cols-3 gap-3">
             {stats.map((stat) => (
               <div key={stat.label} className="glass-panel p-4 text-center">
-                <p className="font-display text-2xl font-bold text-white">{stat.value}</p>
+                <p className="font-display text-2xl font-bold text-white">
+                  {stat.value}
+                </p>
                 <p className="mt-1 text-xs text-slate-400">{stat.label}</p>
               </div>
             ))}

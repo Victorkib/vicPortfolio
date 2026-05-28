@@ -35,7 +35,9 @@ const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [downloadFormat, setDownloadFormat] = useState('pdf');
-  const [portfolioContent, setPortfolioContent] = useState(defaultPortfolioContent);
+  const [portfolioContent, setPortfolioContent] = useState(
+    defaultPortfolioContent,
+  );
   const [isSyncingContent, setIsSyncingContent] = useState(true);
 
   const homeRef = useRef(null);
@@ -45,7 +47,11 @@ const Portfolio = () => {
   const skillsRef = useRef(null);
   const contactRef = useRef(null);
 
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
   const [formStatus, setFormStatus] = useState({
     isSubmitting: false,
     isSubmitted: false,
@@ -71,7 +77,7 @@ const Portfolio = () => {
           }
         });
       },
-      { threshold: 0.28, rootMargin: '-18% 0px -18% 0px' }
+      { threshold: 0.28, rootMargin: '-18% 0px -18% 0px' },
     );
 
     sectionRefs.forEach(({ ref }) => {
@@ -102,17 +108,25 @@ const Portfolio = () => {
     };
   }, []);
 
-  const { projects, experiences, skills, education, certifications, resumeData } =
-    portfolioContent;
+  const {
+    projects,
+    experiences,
+    skills,
+    education,
+    certifications,
+    resumeData,
+  } = portfolioContent;
 
-  const certificationsWithIcons = (certifications || []).map((certification) => ({
-    ...certification,
-    icon: certificationIconByKey[certification.iconKey] || Award,
-  }));
+  const certificationsWithIcons = (certifications || []).map(
+    (certification) => ({
+      ...certification,
+      icon: certificationIconByKey[certification.iconKey] || Award,
+    }),
+  );
 
   const currentRoles = experiences.filter((e) => e.current).length;
   const stats = [
-    { label: 'Projects', value: String(projects.length) },
+    { label: 'Projects', value: 30 },
     { label: 'Roles', value: String(experiences.length) },
     { label: 'Current', value: String(currentRoles) },
   ];
@@ -125,7 +139,8 @@ const Portfolio = () => {
   const validateForm = () => {
     if (!formData.name.trim()) return 'Name is required';
     if (!formData.email.trim()) return 'Email is required';
-    if (!/^\S+@\S+\.\S+$/.test(formData.email)) return 'Please enter a valid email';
+    if (!/^\S+@\S+\.\S+$/.test(formData.email))
+      return 'Please enter a valid email';
     if (!formData.message.trim()) return 'Message is required';
     return null;
   };
@@ -187,7 +202,11 @@ const Portfolio = () => {
         title="Victor Kibiwott - Full Stack Developer Portfolio | MERN Stack Expert"
         description="Portfolio of Victor Kibiwott, a skilled Full Stack Developer specializing in MERN stack, React, Node.js, MongoDB, and Express."
         keywords="Victor Kibiwott, Full Stack Developer, MERN Stack, React Developer, Node.js, MongoDB, Express, Web Development, Portfolio"
-        url={typeof window !== 'undefined' ? window.location.href : 'https://victorkibiwott.com'}
+        url={
+          typeof window !== 'undefined'
+            ? window.location.href
+            : 'https://victorkibiwott.com'
+        }
         image="/qin.jpeg"
       />
 
@@ -212,7 +231,10 @@ const Portfolio = () => {
           projects={projects}
           onSelectProject={setActiveProject}
         />
-        <ExperienceSection sectionRef={experienceRef} experiences={experiences} />
+        <ExperienceSection
+          sectionRef={experienceRef}
+          experiences={experiences}
+        />
         <CertificationsSection
           sectionRef={certificationsRef}
           certifications={certificationsWithIcons}
@@ -241,7 +263,10 @@ const Portfolio = () => {
 
       <AnimatePresence>
         {activeProject && (
-          <ProjectViewer project={activeProject} onClose={() => setActiveProject(null)} />
+          <ProjectViewer
+            project={activeProject}
+            onClose={() => setActiveProject(null)}
+          />
         )}
       </AnimatePresence>
     </div>
